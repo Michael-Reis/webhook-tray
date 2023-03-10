@@ -1,20 +1,26 @@
-
-import { ConexaoMysql } from "../conexao.js"
+import { Traycorp } from "../service/traycorp.js"
 
 export const Webhook = async (req, res) => {
 
+    const traycorp = new Traycorp()
+    const credenciaistray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
 
-    const connection = await ConexaoMysql()
+    const payload = {
+        seller_id: 391250,
+        scope_id: 4375797,
+        scope_name: 'order',
+        act: 'update',
+        app_code: '718'
+    }
 
-    // const connection = await mysql.createConnection({
-    //     host: "mysql.web-ded-345522a.kinghost.net",
-    //     user: "api06",
-    //     password: "vingadores2020",
-    //     database: "api06"
-    // })
+    const scope_name = payload.scope_name == "order";
 
-    
-    const [rows, fields] = await connection.execute('SELECT * FROM marcas');
+    if(scope_name){
+        
+    }
 
-    res.send(rows)
+    // const [rows, fields] = await connection.execute('SELECT * FROM marcas');
+
+    res.send(credenciaistray)
+
 }
