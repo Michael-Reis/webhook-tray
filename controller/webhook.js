@@ -1,26 +1,30 @@
 import { Traycorp } from "../service/traycorp.js"
+import { ConsultaPedido } from "../api/ConsultaPedido.js"
 
 export const Webhook = async (req, res) => {
 
     const traycorp = new Traycorp()
-    const credenciaistray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
+    const credenciais_tray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
 
-    const payload = {
-        seller_id: 391250,
-        scope_id: 4375797,
-        scope_name: 'order',
-        act: 'update',
-        app_code: '718'
+    const { seller_id, scope_id, scope_name, act, app_code } = req.body;
+    const actions = {
+        order_create: async () => {
+            const dadosPedido = await ConsultaPedido({ scope_id, credenciais_tray })
+            if(dadosPedido.error) return res.send(dadosPedido.error)
+
+            return res.send(dadosPedido)
+        },
+        order_update: async () => {
+            return res.send("Pedido atualizado")
+        }
     }
 
-    const scope_name = payload.scope_name == "order";
+    const actionKey = `${scope_name}_${act}`;
+    const action = actions[actionKey];
 
-    if(scope_name){
-        
+    if (seller_id == 1065646 && action) {
+        return action();
     }
 
-    // const [rows, fields] = await connection.execute('SELECT * FROM marcas');
-
-    res.send(credenciaistray)
-
+    return res.send({ error: "Ação não encontrada" });
 }
