@@ -7,13 +7,15 @@ export const Webhook = async (req, res) => {
     const credenciais_tray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
 
     const { seller_id, scope_id, scope_name, act, app_code } = req.body;
+
     const actions = {
+
         order_create: async () => {
             const dadosPedido = await ConsultaPedido({ scope_id, credenciais_tray })
-            if(dadosPedido.error) return res.send(dadosPedido.error)
-
+            if (dadosPedido.error) return res.send({ error: dadosPedido.error })
             return res.send(dadosPedido)
         },
+
         order_update: async () => {
             return res.send("Pedido atualizado")
         }
