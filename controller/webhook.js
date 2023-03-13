@@ -9,7 +9,6 @@ export const Webhook = async (req, res) => {
     const { seller_id, scope_id, scope_name, act, app_code } = req.body;
 
     const actions = {
-
         order_create: async () => {
             const dadosPedido = await ConsultaPedido({ scope_id, credenciais_tray })
             if (dadosPedido.error) return res.send({ error: dadosPedido.error })
