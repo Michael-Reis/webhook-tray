@@ -1,11 +1,8 @@
 export const PedidoEnviado = async (props) => {
 
     const { nome_cliente, codigo_pedido, endereco_cliente, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco, url_rastreio, codigo_rastreio} = props
-
-
     const endereco = `${endereco_cliente}, ${numero_endereco}, ${complemento_endereco} - ${bairro_endereco}, ${cidade_endereco} - ${estado_endereco}, ${cep_endereco}.`
 
-    
     const mensagem = `
         Olá ${nome_cliente};
 

@@ -1,25 +1,30 @@
+import axios from "axios"
+
 
 export const PagamentoAprovado = async (props) => {
 
     const { nome_cliente, codigo_pedido, endereco_cliente, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco } = props
     const endereco = `${endereco_cliente}, ${numero_endereco}, ${complemento_endereco} - ${bairro_endereco}, ${cidade_endereco} - ${estado_endereco}, ${cep_endereco}.`
 
-    const novo_pedido = `
-    
-        Olá ${nome_cliente}; Seu pagamento foi Aprovado !
+    const novo_pedido = `Olá ${nome_cliente.toUpperCase()}; \n*Seu pagamento foi Aprovado !*
+    \nSeu pagamento foi recebido com sucesso.
+    \nEstaremos agora iniciando os processo de limpeza e higienização para preparar o envio.
+    \nSeu Pedido tem o Número  *${codigo_pedido}*
 
-        Seu pagamento foi recebido com sucesso.
-        Estaremos agora iniciando os processo de limpeza e higienização para preparar o envio.
-        Seu Pedido tem o Número ${codigo_pedido}
+    \n${endereco}
 
-        ${endereco}
+    \nManteremos contato, informando quando o produto for encaminhado, e disponibilizando o código para rastreio quando a entrega for pelos Correios	
+    \nOu informaremos quando a peça estiver disponível em uma de nossas lojas, se esta foi a forma escolhida.	
 
-        Manteremos contato, informando quando o produto for encaminhado, e disponibilizando o código para rastreio quando a entrega for pelos Correios	
-        Ou informaremos quando a peça estiver disponível em uma de nossas lojas, se esta foi a forma escolhida.	
-            
-        Ficamos a disposição através de nosso time de relacionamento;	
+    \nFicamos a disposição através de nosso time de relacionamento;	
 
-        Orit
-    `
+    \n_Orit_`;
+
+    const dadoEnviado = await axios.post("https://v5.chatpro.com.br/chatpro-d4dd01b981/api/v1/send_message", {message: novo_pedido, number: "11993077675"},{headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': '305e1b471cbdb76e737ca669be165643'
+    }})
+
     return { status: "mensagem enviada", mensagem: novo_pedido }
 }
