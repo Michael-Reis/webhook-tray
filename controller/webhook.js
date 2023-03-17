@@ -26,7 +26,7 @@ export const Webhook = async (req, res) => {
 
     if (!valid) {
         console.error(error);
-        console.log(typeof(req.body.seller_id))
+        console.log(typeof (req.body.seller_id))
         return res.status(400).json({ error: "Dados inválidos" });
     }
 
@@ -36,7 +36,7 @@ export const Webhook = async (req, res) => {
     const credenciais_tray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
 
     const actions = {
-       
+
         order_create: async () => {
             const dados_pedido = await ConsultaPedido({ scope_id, credenciais_tray })
             if (dados_pedido.error) return res.send({ error: dados_pedido.error })
@@ -44,7 +44,7 @@ export const Webhook = async (req, res) => {
         },
 
         order_update: async () => {
-            
+
             const dados_pedido_atualizado = await ConsultaPedido({ scope_id, credenciais_tray })
 
             if (dados_pedido_atualizado.error) {
