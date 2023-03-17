@@ -5,7 +5,16 @@ const porta = 3001
 const app = express()
 
 app.use(express.json());
+
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).send({ error: 'Erro no JSON da requisição' });
+    }
+    next();
+});
+
 app.use(Router())
+
 
 app.listen(porta, () => {
     console.log(`Servidor rodando na porta ${porta}`)
