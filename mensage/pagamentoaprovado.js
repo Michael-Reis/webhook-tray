@@ -6,7 +6,7 @@ export const PagamentoAprovado = async (props) => {
     const { nome_cliente, codigo_pedido, endereco_cliente, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco } = props
     const endereco = `${endereco_cliente}, ${numero_endereco}, ${complemento_endereco} - ${bairro_endereco}, ${cidade_endereco} - ${estado_endereco}, ${cep_endereco}.`
 
-    const novo_pedido = `Olá ${nome_cliente.toUpperCase()}; \n*Seu pagamento foi Aprovado !*
+    const mensagem = `Olá ${nome_cliente.toUpperCase()}, \n*Seu pagamento foi Aprovado !*
     \nSeu pagamento foi recebido com sucesso.
     \nEstaremos agora iniciando os processo de limpeza e higienização para preparar o envio.
     \nSeu Pedido tem o Número  *${codigo_pedido}*
@@ -20,11 +20,14 @@ export const PagamentoAprovado = async (props) => {
 
     \n_Orit_`;
 
-    const dadoEnviado = await axios.post("https://v5.chatpro.com.br/chatpro-d4dd01b981/api/v1/send_message", {message: novo_pedido, number: "11993077675"},{headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-        'Authorization': '305e1b471cbdb76e737ca669be165643'
-    }})
+    await axios.post("https://v5.chatpro.com.br/chatpro-edf08dc0d3/api/v1/send_message", { message: mensagem, number: "11993077675" }, {
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'Authorization': '3bc94532709481472b326e56506ecfb2'
+        }
+    })
+
 
     return { status: "mensagem enviada", mensagem: novo_pedido }
 }

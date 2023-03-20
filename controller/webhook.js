@@ -5,6 +5,7 @@ import { NotaFiscal } from "../mensage/nf.js"
 import { PagamentoAprovado } from "../mensage/pagamentoaprovado.js"
 import { PedidoEnviado } from "../mensage/pedidoenviado.js"
 import { Cancelado } from "../mensage/cancelado.js"
+import { RetiradaLoja } from "../mensage/retiradaloja.js"
 import ValidaPayloads from "./validapayload.js"
 
 export const Webhook = async (req, res) => {
@@ -52,10 +53,11 @@ export const Webhook = async (req, res) => {
             }
 
             const status_update = {
-                "A ENVIAR VINDI": async () => await PagamentoAprovado(dados_pedido_atualizado),
-                "EMISSÃO DE NF": async () => await NotaFiscal(dados_pedido_atualizado),
-                "ENVIADO": async () => await PedidoEnviado(dados_pedido_atualizado),
-                "CANCELADO": async () => await Cancelado(dados_pedido_atualizado)
+                "A ENVIAR VINDI": async _ => await PagamentoAprovado(dados_pedido_atualizado),
+                "EMISSÃO DE NF": async _ => await NotaFiscal(dados_pedido_atualizado),
+                "ENVIADO": async _ => await PedidoEnviado(dados_pedido_atualizado),
+                "PRONTO PARA RETIRADA EM LOJA": async _ => await RetiradaLoja(dados_pedido_atualizado),
+                "CANCELADO": async _ => await Cancelado(dados_pedido_atualizado)
             }
 
             const retorno = await status_update[dados_pedido_atualizado.status] ? await status_update[dados_pedido_atualizado.status]() : { error: "Status não encontrado" };
