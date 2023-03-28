@@ -4,7 +4,7 @@ import { Router } from "./route.js"
 const porta = 3001
 const app = express()
 
-app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {

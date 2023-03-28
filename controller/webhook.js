@@ -1,3 +1,4 @@
+import querystring from 'querystring';
 import { Traycorp } from "../service/traycorp.js"
 import { ConsultaPedido } from "../api/ConsultaPedido.js"
 import { NovoPedido } from "../mensage/novopedido.js"
@@ -10,15 +11,14 @@ import ValidaPayloads from "./validapayload.js"
 
 export const Webhook = async (req, res) => {
 
-    // Definir um esquema JSON para os dados esperados
     const schema = {
         type: "object",
         properties: {
-            seller_id: { type: "number" },
-            scope_id: { type: "number" },
+            seller_id: { type: "string" },
+            scope_id: { type: "string" },
             scope_name: { type: "string" },
             act: { type: "string" },
-            app_code: { type: "number" }
+            app_code: { type: "string" }
         },
         required: ["seller_id", "scope_id", "scope_name", "act", "app_code"]
     };
@@ -27,7 +27,6 @@ export const Webhook = async (req, res) => {
 
     if (!valid) {
         console.error(error);
-        console.log(typeof (req.body.seller_id))
         return res.status(400).json({ error: "Dados inválidos" });
     }
 
@@ -69,11 +68,9 @@ export const Webhook = async (req, res) => {
     const action = actions[actionKey];
 
     if (seller_id == 1065646 && action) {
-
         const info_pedido = await action();
         if (info_pedido.error) return res.send({ error: info_pedido.error })
         return res.send({ ...info_pedido });
-
     }
 
     return res.send({ error: "Ação não encontrada" });

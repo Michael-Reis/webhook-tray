@@ -13,8 +13,8 @@ export const ConsultaPedido = async ({ scope_id: codigo_pedido, credenciais_tray
 
         const dado_pedido = {
             codigo_pedido: codigo_pedido,
-            // status: detalhe_pedido.status,
-            status: "PRONTO PARA RETIRADA EM LOJA",
+            status: detalhe_pedido.status,
+            // status: "A ENVIAR VINDI",
             data_pedido: detalhe_pedido.date,
             hora_pedido: detalhe_pedido.hour,
             total_parcial: detalhe_pedido.partial_total,
@@ -36,8 +36,8 @@ export const ConsultaPedido = async ({ scope_id: codigo_pedido, credenciais_tray
             numero_nf: detalhe_pedido.OrderInvoice[0].OrderInvoice?.number ? detalhe_pedido.OrderInvoice[0].OrderInvoice?.number : "Não identificado",
             chave_nf: detalhe_pedido.OrderInvoice[0].OrderInvoice?.key ? detalhe_pedido.OrderInvoice[0].OrderInvoice?.key : "Não identificado",
             link_xml: detalhe_pedido.OrderInvoice[0].OrderInvoice?.link ? detalhe_pedido.OrderInvoice[0].OrderInvoice?.link : "Não identificado",
-            // retirada: detalhe_pedido.shipment
-            retirada: "RETIRADA NA LOJA DO SHOPPING HIGIENOPOLIS"
+            retirada: detalhe_pedido.shipment
+            // retirada: "RETIRADA NA LOJA DO SHOPPING HIGIENOPOLIS"
         }
 
 
