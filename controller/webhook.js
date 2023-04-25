@@ -1,4 +1,3 @@
-import querystring from 'querystring';
 import { Traycorp } from "../service/traycorp.js"
 import { ConsultaPedido } from "../api/ConsultaPedido.js"
 import { NovoPedido } from "../mensage/novopedido.js"

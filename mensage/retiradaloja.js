@@ -17,7 +17,7 @@ export const RetiradaLoja = async (props) => {
         \n_Orit_
     `
 
-    await EnviaMensagem(mensagem, "11993077675")
+    await EnviaMensagem(mensagem, "11953697965")
 
     return { status: "mensagem enviada", mensagem: mensagem }
 }

@@ -10,7 +10,7 @@ export const Cancelado = async (props) => {
     \nFicamos a sua disposição para toda ajuda e/ou informação que achar necessária, através de nosso time de relacionamento;
     \n_Orit_`
 
-    await EnviaMensagem(mensagem, "11993077675")
+    await EnviaMensagem(mensagem, "11953697965")
 
     return { status: "mensagem enviada", mensagem: mensagem }
 
