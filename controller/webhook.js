@@ -7,19 +7,21 @@ import { PedidoEnviado } from "../mensage/pedidoenviado.js"
 import { Cancelado } from "../mensage/cancelado.js"
 import { RetiradaLoja } from "../mensage/retiradaloja.js"
 import ValidaPayloads from "./validapayload.js"
+import { Teste } from "./teste.js"
 
 export const Webhook = async (req, res) => {
 
+    console.log("Novo webhook recebido")
+    Teste(req, res)
     const schema = {
         type: "object",
         properties: {
             seller_id: { type: "string" },
             scope_id: { type: "string" },
             scope_name: { type: "string" },
-            act: { type: "string" },
-            app_code: { type: "string" }
+            act: { type: "string" }
         },
-        required: ["seller_id", "scope_id", "scope_name", "act", "app_code"]
+        required: ["seller_id", "scope_id", "scope_name", "act"]
     };
 
     const { valid, error } = ValidaPayloads(req.body, schema);
@@ -29,22 +31,30 @@ export const Webhook = async (req, res) => {
         return res.status(400).json({ error: "Dados inválidos" });
     }
 
-    const { seller_id, scope_id, scope_name, act, app_code } = req.body;
+    const { seller_id, scope_id, scope_name, act } = req.body;
 
     const traycorp = new Traycorp()
     const credenciais_tray = await traycorp.executarQuery('SELECT * FROM tray_acesso')
 
     const actions = {
 
-        order_create: async () => {
-            const dados_pedido = await ConsultaPedido({ scope_id, credenciais_tray })
-            if (dados_pedido.error) return res.send({ error: dados_pedido.error })
+        order_insert: async () => {
+            const dados_pedido = await ConsultaPedido({ scope_id, credenciais_tray, act })
+
+            if (dados_pedido.error) return { error: dados_pedido.error }
+
             return NovoPedido(dados_pedido);
         },
 
+        // order_create: async () => {
+        //     const dados_pedido = await ConsultaPedido({ scope_id, credenciais_tray, act })
+        //     if (dados_pedido.error) return { error: dados_pedido.error }
+        //     return NovoPedido(dados_pedido);
+        // },
+
         order_update: async () => {
 
-            const dados_pedido_atualizado = await ConsultaPedido({ scope_id, credenciais_tray })
+            const dados_pedido_atualizado = await ConsultaPedido({ scope_id, credenciais_tray, act })
 
             if (dados_pedido_atualizado.error) {
                 return { error: dados_pedido_atualizado.error }
@@ -66,14 +76,18 @@ export const Webhook = async (req, res) => {
     const actionKey = `${scope_name}_${act}`;
     const action = actions[actionKey];
 
-    if (seller_id == 1065646 && action) {
+    // if (seller_id == 765915 && action) {
+    if (action) {
         const info_pedido = await action();
-        if (info_pedido.error) return res.send({ error: info_pedido.error })
+
+        if (info_pedido.error) {
+            return res.send({ error: info_pedido.error })
+        }
+
         return res.send({ ...info_pedido });
     }
 
     return res.send({ error: "Ação não encontrada" });
-
 
 
 }

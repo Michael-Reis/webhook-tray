@@ -1,4 +1,5 @@
 import { EnviaMensagem } from "../api/EnviaMensagem.js"
+import { Telefones } from "../api/Telefones.js"
 
 export const NovoPedido = async (props) => {
   
@@ -10,8 +11,13 @@ export const NovoPedido = async (props) => {
         \nCaso tenha alguma dúvida ou precise de alguma ajude, pode contar com nosso time de relacionamento;
         \n_Orit_
     `
-    
-    await EnviaMensagem(mensagem, "11953697965")
+
+    const numeros_telefone = Telefones()
+    const promessas = numeros_telefone.map(celular => {
+        return EnviaMensagem(mensagem, celular)
+    });
+
+    await Promise.all(promessas)
 
     return {status: "mensagem enviada", mensagem: mensagem }
 }

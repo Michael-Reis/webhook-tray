@@ -1,6 +1,6 @@
 import axios from "axios"
 import { EnviaMensagem } from "../api/EnviaMensagem.js"
-
+import { Telefones } from "../api/Telefones.js"
 export const Cancelado = async (props) => {
 
     const { nome_cliente, codigo_pedido } = props
@@ -10,7 +10,13 @@ export const Cancelado = async (props) => {
     \nFicamos a sua disposição para toda ajuda e/ou informação que achar necessária, através de nosso time de relacionamento;
     \n_Orit_`
 
-    await EnviaMensagem(mensagem, "11953697965")
+
+    const numeros_telefone = Telefones()
+    const promessas = numeros_telefone.map(celular => {
+        return EnviaMensagem(mensagem, celular)
+    });
+
+    await Promise.all(promessas)
 
     return { status: "mensagem enviada", mensagem: mensagem }
 
