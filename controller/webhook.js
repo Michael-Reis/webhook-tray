@@ -62,7 +62,7 @@ export const Webhook = async (req, res) => {
 
             const status_update = {
                 "A ENVIAR VINDI": async _ => await PagamentoAprovado(dados_pedido_atualizado),
-                "EMISSÃO DE NF": async _ => await NotaFiscal(dados_pedido_atualizado),
+                "EMISSÃO DE NOTA FISCAL": async _ => await NotaFiscal(dados_pedido_atualizado),
                 "ENVIADO": async _ => await PedidoEnviado(dados_pedido_atualizado),
                 "PRONTO PARA RETIRADA EM LOJA": async _ => await RetiradaLoja(dados_pedido_atualizado),
                 "CANCELADO": async _ => await Cancelado(dados_pedido_atualizado)

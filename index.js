@@ -1,8 +1,13 @@
 import express from "express"
 import { Router } from "./route.js"
+import morgan from "morgan"
+
 
 const porta = 21001
 const app = express()
+
+
+app.use(morgan('dev'))
 
 app.use(express.urlencoded({ extended: false }))
 
