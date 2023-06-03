@@ -3,7 +3,7 @@ import { Telefones } from "../api/Telefones.js"
 
 export const NotaFiscal = async (props) => {
 
-    const { nome_cliente, codigo_pedido, numero_nf, chave_nf, link_xml } = props
+    const { nome_cliente, codigo_pedido, numero_nf, chave_nf, link_xml, telefone_cliente } = props
 
     const mensagem = `Olá ${nome_cliente.toUpperCase()},
     \n*Seu pedido ${codigo_pedido} já foi faturado e em breve será encaminhado.*
@@ -15,6 +15,8 @@ export const NotaFiscal = async (props) => {
 
 
     const numeros_telefone = Telefones()
+    numeros_telefone.push(telefone_cliente)
+
     const promessas = numeros_telefone.map(celular => {
         return EnviaMensagem(mensagem, celular)
     });

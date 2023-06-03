@@ -1,11 +1,13 @@
 import express from "express"
 import { Router } from "./route.js"
 import morgan from "morgan"
+import cors from "cors"
 
 
 const porta = 21001
 const app = express()
 
+app.use(cors())
 
 app.use(morgan('dev'))
 

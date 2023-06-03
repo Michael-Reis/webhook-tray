@@ -3,7 +3,7 @@ import { Telefones } from "../api/Telefones.js"
 
 export const NovoPedido = async (props) => {
   
-    const { nome_cliente } = props
+    const { nome_cliente, telefone_cliente } = props
     
     const mensagem = `Olá ${nome_cliente.toUpperCase()}
         \n*Estamos passando para confirmar que recebemos seu pedido e o mesmo está sendo preparado.*
@@ -13,6 +13,8 @@ export const NovoPedido = async (props) => {
     `
 
     const numeros_telefone = Telefones()
+    numeros_telefone.push(telefone_cliente)
+
     const promessas = numeros_telefone.map(celular => {
         return EnviaMensagem(mensagem, celular)
     });

@@ -4,7 +4,7 @@ import { Telefones } from "../api/Telefones.js"
 
 export const RetiradaLoja = async (props) => {
 
-    const { nome_cliente, codigo_pedido, retirada } = props
+    const { nome_cliente, codigo_pedido, retirada, telefone_cliente } = props
     
     const ibirapuera = "Loja *Shopping Ibirapuera* - Piso Campo Belo - Loja 223 (11) 5093 - 1823 \n\nNosso horário de atendimento é de segunda a sábado, das 10h30 às 20h30.\nNão abrimos aos domingos.\nEm Feriados os horários podem ser alterados."
     const higienopolis = "Loja *Shopping Pátio Higienópolis* - Piso Veiga Filho - loja 159 (11) 3660 - 1818 \n\nNosso horário de atendimento é de segunda a sábado, das 10h30 às 20h30 E Domingos das 14h30 às 19h00.\nEm Feriados, os horários podem ser alterados."
@@ -20,6 +20,7 @@ export const RetiradaLoja = async (props) => {
     `
 
     const numeros_telefone = Telefones()
+    numeros_telefone.push(telefone_cliente)
     const promessas = numeros_telefone.map(celular => {
         return EnviaMensagem(mensagem, celular)
     });

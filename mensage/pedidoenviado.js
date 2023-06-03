@@ -3,7 +3,7 @@ import { Telefones } from "../api/Telefones.js"
 
 export const PedidoEnviado = async (props) => {
 
-    const { nome_cliente, codigo_pedido, endereco_cliente, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco, url_rastreio, codigo_rastreio } = props
+    const { nome_cliente, codigo_pedido, endereco_cliente, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco, url_rastreio, codigo_rastreio, telefone_cliente } = props
     const endereco = `${endereco_cliente}, ${numero_endereco}, ${complemento_endereco} - ${bairro_endereco}, ${cidade_endereco} - ${estado_endereco}, ${cep_endereco}.`
 
     const mensagem = `Olá ${nome_cliente.toUpperCase()},
@@ -16,6 +16,8 @@ export const PedidoEnviado = async (props) => {
 
 
     const numeros_telefone = Telefones()
+    numeros_telefone.push(telefone_cliente)
+
     const promessas = numeros_telefone.map(celular => {
         return EnviaMensagem(mensagem, celular)
     });
